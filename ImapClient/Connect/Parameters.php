@@ -3,6 +3,8 @@
 namespace sergey144010\ImapClient\Connect;
 
 use \Exception;
+use sergey144010\ImapClient\Connect\Interfaces\ParametersInterface;
+use sergey144010\ImapClient\Connect\Interfaces\MailboxInterface;
 
 class Parameters implements ParametersInterface
 {

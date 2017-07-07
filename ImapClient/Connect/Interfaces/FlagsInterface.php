@@ -6,7 +6,7 @@
  * Time: 23:13
  */
 
-namespace sergey144010\ImapClient\Connect;
+namespace sergey144010\ImapClient\Connect\Interfaces;
 
 
 interface FlagsInterface

@@ -13,8 +13,8 @@
 namespace sergey144010\ImapClient;
 
 
-use sergey144010\ImapClient\Connect\ImapConnectInterface;
-use sergey144010\ImapClient\IncomingMessage\IncomingMessageInterface;
+use sergey144010\ImapClient\Connect\Interfaces\ImapConnectInterface;
+use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
 use sergey144010\ImapClient\IncomingMessage\IncomingMessage;
 use sergey144010\ImapClient\IncomingMessage\Message;
 
@@ -58,7 +58,7 @@ class ImapClient implements GetMessageInterface
     private $stream;
 
     /**
-     * @var Connect\ParametersInterface
+     * @var Connect\Interfaces\ParametersInterface
      */
     private $parameters;
 

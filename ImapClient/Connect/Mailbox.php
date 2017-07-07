@@ -2,6 +2,8 @@
 
 namespace sergey144010\ImapClient\Connect;
 
+use sergey144010\ImapClient\Connect\Interfaces\MailboxInterface;
+use sergey144010\ImapClient\Connect\Interfaces\FlagsInterface;
 
 class Mailbox implements MailboxInterface
 {

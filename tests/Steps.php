@@ -5,8 +5,8 @@ namespace sergey144010\ImapClient\Tests;
 
 use sergey144010\ImapClient\ImapClient;
 use sergey144010\ImapClient\ImapClientException;
-use sergey144010\ImapClient\Tests\MessagesPool;
-use sergey144010\ImapClient\Tests\SimpleMessage;
+#use sergey144010\ImapClient\Tests\MessagesPool;
+#use sergey144010\ImapClient\Tests\SimpleMessage;
 
 class Steps
 {

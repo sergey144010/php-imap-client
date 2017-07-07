@@ -8,6 +8,7 @@
 
 namespace sergey144010\ImapClient\IncomingMessage;
 
+use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
 use sergey144010\ImapClient\MessageIdentifierInterface;
 use sergey144010\ImapClient\ImapHelper;
 use sergey144010\ImapClient\ImapClientException;
