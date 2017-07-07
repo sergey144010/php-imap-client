@@ -42,6 +42,9 @@ class ImapClient implements GetMessageInterface
     const DESC = 'desc';
     const ASC = 'asc';
 
+    const ONN_DECODE = 0;
+    const OFF_DECODE = 1;
+
     /**
      * Subscribe to a folder
      */
@@ -64,6 +67,8 @@ class ImapClient implements GetMessageInterface
 
     private $identifier = self::ID;
     private $saveIdentifier;
+
+    private $decode = self::ONN_DECODE;
 
     /**
      * @var array
@@ -194,6 +199,21 @@ class ImapClient implements GetMessageInterface
         $this->getMessageConstant = self::MESSAGE_WITH_ATTACHMENTS;
     }
 
+    public function onDecode()
+    {
+        $this->decode = self::ONN_DECODE;
+    }
+
+    public function offDecode()
+    {
+        $this->decode = self::OFF_DECODE;
+    }
+
+    public function getDecode()
+    {
+        return $this->decode;
+    }
+
     public function getMessageStructure($id)
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
@@ -223,7 +243,9 @@ class ImapClient implements GetMessageInterface
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullHeaders();
-        $this->incomingMessage->decodeHeaders();
+        if($this->getDecode() == self::ONN_DECODE){
+            $this->incomingMessage->decodeHeaders();
+        };
         return $this->incomingMessage->getHeaders();
     }
 
@@ -231,7 +253,9 @@ class ImapClient implements GetMessageInterface
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullShortHeaders();
-        $this->incomingMessage->decodeShortHeaders();
+        if($this->getDecode() == self::ONN_DECODE) {
+            $this->incomingMessage->decodeShortHeaders();
+        };
         return $this->incomingMessage->getShortHeaders();
     }
 
@@ -241,7 +265,9 @@ class ImapClient implements GetMessageInterface
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullBody();
-        $this->incomingMessage->decodeBody();
+        if($this->getDecode() == self::ONN_DECODE) {
+            $this->incomingMessage->decodeBody();
+        };
         return $this->incomingMessage->getBody();
     }
 
@@ -254,10 +280,12 @@ class ImapClient implements GetMessageInterface
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->pullHeaders();
-        $this->incomingMessage->decodeHeaders();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullBody();
-        $this->incomingMessage->decodeBody();
+        if($this->getDecode() == self::ONN_DECODE) {
+            $this->incomingMessage->decodeHeaders();
+            $this->incomingMessage->decodeBody();
+        };
         $obj = new Message();
         $obj->setParts($this->incomingMessage->getParts());
         $obj->setHeaders($this->incomingMessage->getHeaders());
@@ -270,12 +298,14 @@ class ImapClient implements GetMessageInterface
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->pullHeaders();
-        $this->incomingMessage->decodeHeaders();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullBody();
-        $this->incomingMessage->decodeBody();
         $this->incomingMessage->pullAttachments();
-        $this->incomingMessage->decodeAttachments();
+        if($this->getDecode() == self::ONN_DECODE) {
+            $this->incomingMessage->decodeHeaders();
+            $this->incomingMessage->decodeBody();
+            $this->incomingMessage->decodeAttachments();
+        };
         $obj = new Message();
         $obj->setParts($this->incomingMessage->getParts());
         $obj->setHeaders($this->incomingMessage->getHeaders());
@@ -295,7 +325,9 @@ class ImapClient implements GetMessageInterface
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullAttachments();
-        $this->incomingMessage->decodeAttachments();
+        if($this->getDecode() == self::ONN_DECODE) {
+            $this->incomingMessage->decodeAttachments();
+        };
         $this->attachments = $this->incomingMessage->getAttachments();
         return $this->attachments;
     }
