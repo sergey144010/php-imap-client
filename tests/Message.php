@@ -9,7 +9,7 @@
 namespace sergey144010\ImapClient\Tests;
 
 
-use sergey144010\ImapClient\Tests\MessageInterface;
+#use sergey144010\ImapClient\Tests\MessageInterface;
 use sergey144010\ImapClient\ImapClientException;
 
 

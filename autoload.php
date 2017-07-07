@@ -12,17 +12,17 @@ require_once "ImapClient/ImapHelper.php";
 require_once "ImapClient/MessageIdentifier.php";
 require_once "ImapClient/OutgoingMessage.php";
 
-require_once "ImapClient/Connect/Interface/ParametersInterface.php";
-require_once "ImapClient/Connect/Interface/MailboxInterface.php";
-require_once "ImapClient/Connect/Interface/FlagsInterface.php";
-require_once "ImapClient/Connect/Interface/ImapConnectInterface.php";
+require_once "ImapClient/Connect/Interfaces/ParametersInterface.php";
+require_once "ImapClient/Connect/Interfaces/MailboxInterface.php";
+require_once "ImapClient/Connect/Interfaces/FlagsInterface.php";
+require_once "ImapClient/Connect/Interfaces/ImapConnectInterface.php";
 
 require_once "ImapClient/Connect/Parameters.php";
 require_once "ImapClient/Connect/Mailbox.php";
 require_once "ImapClient/Connect/Flags.php";
 require_once "ImapClient/Connect/ImapConnect.php";
 
-require_once "ImapClient/IncomingMessage/Interface/IncomingMessageInterface.php";
+require_once "ImapClient/IncomingMessage/Interfaces/IncomingMessageInterface.php";
 
 require_once "ImapClient/IncomingMessage/Subtype.php";
 require_once "ImapClient/IncomingMessage/TypeAttachments.php";

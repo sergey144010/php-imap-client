@@ -2,6 +2,7 @@
 
 namespace sergey144010\ImapClient\Connect;
 
+use sergey144010\ImapClient\Connect\Interfaces\FlagsInterface;
 
 class Flags implements FlagsInterface
 {
