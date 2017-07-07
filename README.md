@@ -19,6 +19,7 @@ Read [our usage guide](docs/guide-en/Usage.md)
 Read [our examples guide](docs/guide-en/Examples.md)
 
 #### Methods
+Explanations to some methods, see [Methods](docs/guide-en/Methods.md) 
 
 #### Feedback and Contributing
 Please read our [new contributor guide](docs/guide-en/Contributing.md)!
