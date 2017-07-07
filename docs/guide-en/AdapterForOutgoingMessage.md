@@ -65,14 +65,7 @@ use SSilence\ImapClient\AdapterForOutgoingMessage;
 
 try{
 
-$imap = new ImapClient([
-    'flags' => [ ... ],
-    'mailbox' => [ ... ],
-    'connect' => [
-        'username' => 'user@gmail.com',
-        'password' => 'password',
-    ]
-]);
+$imap = new ImapClient(...);
 
 # ... code ...
 

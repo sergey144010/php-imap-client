@@ -6,7 +6,7 @@
  * Time: 1:25
  */
 
-namespace SSilence\ImapClient\Tests;
+namespace sergey144010\ImapClient\Tests;
 
 
 class SimpleMessage extends Message

@@ -15,7 +15,7 @@ class TestImapClient extends ImapClient
 {
     public function getImap()
     {
-        return $this->imap;
+        return $this->stream;
     }
 
     public function getMailbox()

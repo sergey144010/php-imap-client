@@ -6,9 +6,9 @@
  * Time: 0:48
  */
 
-namespace SSilence\ImapClient\Tests;
+namespace sergey144010\ImapClient\Tests;
 
-use SSilence\ImapClient\Tests\MessageInterface;
+use sergey144010\ImapClient\Tests\MessageInterface;
 
 class MessagesPool
 {

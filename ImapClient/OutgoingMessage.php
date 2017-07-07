@@ -10,7 +10,7 @@
  * GNU General Public License for more details.
  */
 
-namespace SSilence\ImapClient;
+namespace sergey144010\ImapClient;
 
 /**
  * Class for all outgoing messages

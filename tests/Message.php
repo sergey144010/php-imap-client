@@ -6,11 +6,11 @@
  * Time: 1:01
  */
 
-namespace SSilence\ImapClient\Tests;
+namespace sergey144010\ImapClient\Tests;
 
 
-use SSilence\ImapClient\Tests\MessageInterface;
-use SSilence\ImapClient\ImapClientException;
+use sergey144010\ImapClient\Tests\MessageInterface;
+use sergey144010\ImapClient\ImapClientException;
 
 
 class Message implements MessageInterface

@@ -6,7 +6,7 @@
  * Time: 2:19
  */
 
-namespace SSilence\ImapClient\Tests;
+namespace sergey144010\ImapClient\Tests;
 
 
 class TestMessage1 extends Message

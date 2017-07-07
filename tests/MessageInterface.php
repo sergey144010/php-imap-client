@@ -6,7 +6,7 @@
  * Time: 0:55
  */
 
-namespace SSilence\ImapClient\Tests;
+namespace sergey144010\ImapClient\Tests;
 
 
 interface MessageInterface
