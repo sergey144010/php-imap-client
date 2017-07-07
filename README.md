@@ -23,6 +23,10 @@ Read [our examples guide](docs/guide-en/Examples.md)
 #### Feedback and Contributing
 Please read our [new contributor guide](docs/guide-en/Contributing.md)!
 
+### Thanks
+This is taken as a basis, but it is substantially revised and supplemented.
+https://github.com/SSilence/php-imap-client
+
 #### License
 Copyright (C) 2017 Sergey144010
 
