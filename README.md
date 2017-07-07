@@ -25,4 +25,5 @@ Please read our [new contributor guide](docs/guide-en/Contributing.md)!
 
 #### License
 Copyright (C) 2017 Sergey144010
+
 Licensed under the GNU public license
