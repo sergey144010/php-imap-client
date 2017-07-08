@@ -27,6 +27,8 @@ The incoming letter can be obtained as follows:
 $imapClient = ImapClientSimple::connect(...);
 $email = $imapClient->getMessage(83);
 # or
+$email = $imapClient->getMessageWithAttachments(83);
+# or array messages
 $emails = $imapClient->getMessages();
 ```
 
@@ -79,13 +81,13 @@ $email = $imapClient->getMessage(83);
 $email->getAttachments(); // return NULL
 ```
 
-### getMessages()
+### getMessageWithAttachments()
 
-Method getMessages() return array messages
-and contain the property 'attachments'.
+Method getMessageWithAttachments() return one message with its attachments,
+contain in the property 'attachments'.
 ```php
 $imapClient = ImapClientSimple::connect(...);
-$array = $imapClient->getMessages(83);
+$email = $imapClient->getMessageWithAttachments(83);
 $email->getAttachments(); // return array whith attachments
 ```
 
@@ -107,5 +109,18 @@ $imapClient->useGetMessageWithAttachments()
 like this
 ```php
 $imapClient->useGetMessageHeaders();
+$emails = $imapClient->getMessages();
+```
+Return an array of message headers.
+
+You can receive all messages with attachments as follows:
+```php
+$imapClient->useGetMessageWithAttachments()
+$emails = $imapClient->getMessages();
+```
+
+Only the body of messages can be received:
+```php
+$imapClient->useGetMessageBody();
 $emails = $imapClient->getMessages();
 ```
