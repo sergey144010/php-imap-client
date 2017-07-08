@@ -32,7 +32,7 @@ foreach($folders as $folder => $subFolder) {
     echo $subFolder.PHP_EOL;
 }
 ```
-See [getFolders()](Methods.md) method settings.
+See [getFolders()](Methods.md#getfolders) method settings.
 
 You can also select folders
 ```php
