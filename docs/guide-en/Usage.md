@@ -60,6 +60,18 @@ Get the message with ID 82
 $imapClient->getMessage(82);
 ```
 
+You can used UID, like this
+```php
+# Default work with ID
+$imapClient->getMessage(82);
+# Turning on the work with UID
+$imapClient->useUID();
+$imapClient->getMessage(39482);
+# We switch back to ID.
+$imapClient->useID();
+$imapClient->getMessage(82);
+```
+
 Save all of the attachmets in this email.
 ```php
 $imapClient->getMessageWithAttachments(82);
