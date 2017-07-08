@@ -142,6 +142,8 @@ $imapClient->useGetMessageBody();
 $imapClient->useGetMessageAttachments();
 $imapClient->useGetMessageParts();
 $imapClient->useGetMessageStructure();
+$imapClient->useGetMessage();
+$imapClient->useGetMessageWithAttachments()
 ```
 
 ### Use message ID
