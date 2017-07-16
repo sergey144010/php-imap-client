@@ -51,6 +51,8 @@ try{
     $steps->step7_check_getMessageBody();
     $steps->step8_check_getMessage();
 
+    echo 'OK'.PHP_EOL;
+
 }catch(ImapClientException $e){
     echo $e->getMessage();
 };
