@@ -42,11 +42,13 @@ class Attachments
     private function getAttachments()
     {
         $attachments = [];
-        $parts = (new AllowTypes($this->structure, $this->parts))->getParts(AllowTypes::PART_ATTACHMENTS);
+        $allowTypes = new AllowTypes($this->structure, $this->parts);
+        $parts = $allowTypes->getParts(AllowTypes::PART_ATTACHMENTS);
         foreach ($parts as $part)
         {
-            $body = Part::pullBody($this->messageIdentifier, $part['part']);
             $structure = Part::instance()->getPieceStructure($this->structure, $part['part']);
+            if($allowTypes->validate($structure, $part['subtype']) === false) { continue; };
+            $body = Part::pullBody($this->messageIdentifier, $part['part']);
             $name = $this->getName($structure);
 
             $objNew = new \stdClass();
