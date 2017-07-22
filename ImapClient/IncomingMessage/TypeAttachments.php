@@ -7,6 +7,12 @@ use sergey144010\ImapClient\IncomingMessage\Interfaces\TypeInterface;
 
 class TypeAttachments implements TypeInterface
 {
+
+    const ON_INLINE_VALIDATE = 0;
+    const OFF_INLINE_VALIDATE = 1;
+
+    private static $validate;
+
 	/**
 	 * Types of attachments
      *
@@ -24,19 +30,48 @@ class TypeAttachments implements TypeInterface
         return $this->types;
     }
 
+    public static function offInlineValidate()
+    {
+        self::$validate = self::OFF_INLINE_VALIDATE;
+    }
+
+    public static function onInlineValidate()
+    {
+        self::$validate = self::ON_INLINE_VALIDATE;
+    }
+
     /**
      * @param $structure
      * @param $subtype
-     * @return bool|null
+     * @return bool
      */
     public function validate($structure, $subtype)
     {
-        switch ($subtype){
-            case 'PLAIN':
-                return $this->validatePlain($structure);
-                break;
+        if(self::$validate == self::ON_INLINE_VALIDATE){
+            switch ($subtype){
+                case 'PLAIN':
+                    return $this->validatePlain($structure);
+                    break;
+
+                /* INLINE Validation */
+                case 'JPEG':
+                    return $this->validateInline($structure);
+                    break;
+                case 'PNG':
+                    return $this->validateInline($structure);
+                    break;
+                case 'GIF':
+                    return $this->validateInline($structure);
+                    break;
+            };
+        }else{
+            switch ($subtype){
+                case 'PLAIN':
+                    return $this->validatePlain($structure);
+                    break;
+            };
         };
-        return null;
+        return true;
     }
 
     /**
@@ -53,5 +88,15 @@ class TypeAttachments implements TypeInterface
             };
         };
         return false;
+    }
+
+    private function validateInline($structure)
+    {
+            if($structure->ifdisposition == 1){
+                if($structure->disposition == 'inline'){
+                    return false;
+                };
+            };
+        return true;
     }
 }

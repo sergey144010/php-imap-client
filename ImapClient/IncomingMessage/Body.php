@@ -51,7 +51,7 @@ class Body
         foreach ($parts as $part)
         {
             $structure = Part::instance()->getPieceStructure($this->structure, $part['part']);
-            if($allowTypes->validate($structure, $part['subtype']) === false) { continue; };
+            if(!$allowTypes->validate($structure, $part['subtype'])) { continue; };
             $body = Part::pullBody($this->messageIdentifier, $part['part']);
 
             $subtype = strtolower($structure->subtype);
