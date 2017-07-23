@@ -39,14 +39,19 @@ class Attachments
         return $this->attachments;
     }
 
+    /**
+     * @return void
+     */
     private function getAttachments()
     {
         $attachments = [];
-        $parts = (new AllowTypes($this->structure, $this->parts))->getParts(AllowTypes::PART_ATTACHMENTS);
+        $allowTypes = new AllowTypes($this->structure, $this->parts);
+        $parts = $allowTypes->getParts(AllowTypes::PART_ATTACHMENTS);
         foreach ($parts as $part)
         {
-            $body = Part::pullBody($this->messageIdentifier, $part['part']);
             $structure = Part::instance()->getPieceStructure($this->structure, $part['part']);
+            if(!$allowTypes->validate($structure, $part['subtype'])) { continue; };
+            $body = Part::pullBody($this->messageIdentifier, $part['part']);
             $name = $this->getName($structure);
 
             $objNew = new \stdClass();
@@ -75,15 +80,13 @@ class Attachments
      */
     private function getName($structure)
     {
-        // Check for different types of inline attachments.
         if ($structure->ifdparameters) {
             foreach ($structure->dparameters as $param) {
                 if ($param->attribute == 'filename') {
                     return $param->value;
                 };
             };
-        }
-        elseif($structure->ifparameters) {
+        }elseif($structure->ifparameters) {
             foreach ($structure->parameters as $param) {
                 if ($param->attribute == 'name') {
                     return $param->value;

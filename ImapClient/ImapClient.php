@@ -17,6 +17,7 @@ use sergey144010\ImapClient\Connect\Interfaces\ImapConnectInterface;
 use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
 use sergey144010\ImapClient\IncomingMessage\IncomingMessage;
 use sergey144010\ImapClient\IncomingMessage\Message;
+use sergey144010\ImapClient\IncomingMessage\TypeAttachments;
 
 /**
  * Class ImapClient is helper class for imap access
@@ -212,6 +213,16 @@ class ImapClient implements GetMessageInterface
     public function getDecode()
     {
         return $this->decode;
+    }
+
+    public function offInlineInAttachments()
+    {
+        TypeAttachments::offInlineValidate();
+    }
+
+    public function onInlineInAttachments()
+    {
+        TypeAttachments::onInlineValidate();
     }
 
     public function getMessageStructure($id)

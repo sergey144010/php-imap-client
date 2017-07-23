@@ -3,6 +3,7 @@
 namespace sergey144010\ImapClient\IncomingMessage;
 
 use sergey144010\ImapClient\ImapClientException;
+use sergey144010\ImapClient\IncomingMessage\Interfaces\TypeInterface;
 use sergey144010\ImapClient\Part;
 
 class AllowTypes
@@ -12,6 +13,11 @@ class AllowTypes
 
     private $structure;
     private $parts;
+
+    /**
+     * @var TypeInterface
+     */
+    private $type;
 
     public function __construct($structure, $parts)
     {
@@ -27,10 +33,12 @@ class AllowTypes
         $types = null;
         switch ($type) {
             case self::PART_ATTACHMENTS:
-                $types = TypeAttachments::get();
+                $this->type = new TypeAttachments();
+                $types = $this->type->getList();
                 break;
             case self::PART_BODY:
-                $types = TypeBody::get();
+                $this->type = new TypeBody();
+                $types = $this->type->getList();
                 break;
             default:
                 throw new ImapClientException("Part type not recognised/supported");
@@ -48,4 +56,11 @@ class AllowTypes
         };
         return $parts;
     }
+
+
+    public function validate($structure, $subtype)
+    {
+        return $this->type->validate($structure, $subtype);
+    }
+
 }

@@ -23,6 +23,7 @@ require_once "ImapClient/Connect/Flags.php";
 require_once "ImapClient/Connect/ImapConnect.php";
 
 require_once "ImapClient/IncomingMessage/Interfaces/IncomingMessageInterface.php";
+require_once "ImapClient/IncomingMessage/Interfaces/TypeInterface.php";
 
 require_once "ImapClient/IncomingMessage/Subtype.php";
 require_once "ImapClient/IncomingMessage/TypeAttachments.php";

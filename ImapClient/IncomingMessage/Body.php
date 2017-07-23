@@ -46,11 +46,13 @@ class Body
     private function getBody()
     {
         $objNew = new \stdClass(); $i = 1;
-        $parts = (new AllowTypes($this->structure, $this->parts))->getParts(AllowTypes::PART_BODY);
+        $allowTypes = new AllowTypes($this->structure, $this->parts);
+        $parts = $allowTypes->getParts(AllowTypes::PART_BODY);
         foreach ($parts as $part)
         {
-            $body = Part::pullBody($this->messageIdentifier, $part['part']);
             $structure = Part::instance()->getPieceStructure($this->structure, $part['part']);
+            if(!$allowTypes->validate($structure, $part['subtype'])) { continue; };
+            $body = Part::pullBody($this->messageIdentifier, $part['part']);
 
             $subtype = strtolower($structure->subtype);
 

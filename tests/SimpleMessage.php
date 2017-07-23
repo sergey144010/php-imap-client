@@ -16,8 +16,8 @@ class SimpleMessage extends Message
         $this->body =
             "From: meS@example.com\r\n"
             ."To: youS@example.com\r\n"
-            ."Subject: testS\r\n"
+            ."Subject: Plain message\r\n"
             ."\r\n"
-            ."TestS message\r\n";
+            ."Text plain message\r\n";
     }
 }

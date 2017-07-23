@@ -269,4 +269,77 @@ class Steps
         }; $i++;
     }
 
+    public function step9_check_Inline()
+    {
+        /* HEADER */
+        $stepID = 9; $i = 1;
+        echo 'Start step '.$stepID.PHP_EOL;
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+        echo 'Set messages'. PHP_EOL;
+        MessagesPool::push(LoadMessage::instance()->loadFile('emails/inline.eml'));
+        MessagesPool::send(
+            $this->imapClient->getStream(),
+            $this->imapClient->getConnectParameters()->getMailbox()->getServerPart().$this->testFolder);
+        MessagesPool::clean();
+        echo 'Messages send'. PHP_EOL;
+
+        /* WORK PART */
+        $message = $this->imapClient->getMessageWithAttachments(1);
+        try{
+            $attachments = $message->getAttachments();
+            if(!empty($attachments)){
+                $this->imapClient->deleteMessagesInCurrentFolder();
+                throw new ImapClientException('Error: Inline in attachments');
+            };
+        }catch (ImapClientException $e){
+            $this->imapClient->deleteMessagesInCurrentFolder();
+            throw new ImapClientException('Step '.$stepID.' failed');
+        };
+
+        /* FOOTER */
+        $this->imapClient->deleteMessagesInCurrentFolder();
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+    }
+
+    public function step10_check_onInlineInAttachments()
+    {
+        /* HEADER */
+        $stepID = 10; $i = 1;
+        echo 'Start step '.$stepID.PHP_EOL;
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+        echo 'Set messages'. PHP_EOL;
+        MessagesPool::push(LoadMessage::instance()->loadFile('emails/inline.eml'));
+        MessagesPool::send(
+            $this->imapClient->getStream(),
+            $this->imapClient->getConnectParameters()->getMailbox()->getServerPart().$this->testFolder);
+        MessagesPool::clean();
+        echo 'Messages send'. PHP_EOL;
+
+        /* WORK PART */
+        $this->imapClient->onInlineInAttachments();
+        $message = $this->imapClient->getMessageWithAttachments(1);
+        try{
+            $attachments = $message->getAttachments();
+            if(empty($attachments)){
+                $this->imapClient->deleteMessagesInCurrentFolder();
+                throw new ImapClientException('Error: Attachments do not contain inline');
+            };
+        }catch (ImapClientException $e){
+            $this->imapClient->deleteMessagesInCurrentFolder();
+            throw new ImapClientException('Step '.$stepID.' failed');
+        };
+
+        /* FOOTER */
+        $this->imapClient->deleteMessagesInCurrentFolder();
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+    }
+
 }
