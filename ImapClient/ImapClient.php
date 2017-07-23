@@ -215,12 +215,12 @@ class ImapClient implements GetMessageInterface
         return $this->decode;
     }
 
-    public function onInlineInAttachments()
+    public function offInlineInAttachments()
     {
         TypeAttachments::offInlineValidate();
     }
 
-    public function offInlineInAttachments()
+    public function onInlineInAttachments()
     {
         TypeAttachments::onInlineValidate();
     }
