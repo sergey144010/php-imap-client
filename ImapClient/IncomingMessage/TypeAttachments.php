@@ -8,8 +8,8 @@ use sergey144010\ImapClient\IncomingMessage\Interfaces\TypeInterface;
 class TypeAttachments implements TypeInterface
 {
 
-    const ON_INLINE_VALIDATE = 0;
-    const OFF_INLINE_VALIDATE = 1;
+    const OFF_INLINE_VALIDATE = 0;
+    const ON_INLINE_VALIDATE = 1;
 
     private static $validate;
 
@@ -47,13 +47,9 @@ class TypeAttachments implements TypeInterface
      */
     public function validate($structure, $subtype)
     {
-        if(self::$validate == self::ON_INLINE_VALIDATE){
+        /* INLINE Validation */
+        if(self::$validate === self::ON_INLINE_VALIDATE){
             switch ($subtype){
-                case 'PLAIN':
-                    return $this->validatePlain($structure);
-                    break;
-
-                /* INLINE Validation */
                 case 'JPEG':
                     return $this->validateInline($structure);
                     break;
@@ -64,39 +60,35 @@ class TypeAttachments implements TypeInterface
                     return $this->validateInline($structure);
                     break;
             };
-        }else{
-            switch ($subtype){
-                case 'PLAIN':
-                    return $this->validatePlain($structure);
-                    break;
-            };
         };
-        return true;
+        return $this->validateAttachment($structure);
     }
 
     /**
      * @param $structure
      * @return bool
      */
-    private function validatePlain($structure)
+    private function validateAttachment($structure)
     {
-        if($structure->subtype == 'PLAIN'){
             if($structure->ifdisposition == 1){
                 if($structure->disposition == 'attachment'){
                     return true;
                 };
             };
-        };
         return false;
     }
 
+    /**
+     * @param $structure
+     * @return bool
+     */
     private function validateInline($structure)
     {
             if($structure->ifdisposition == 1){
                 if($structure->disposition == 'inline'){
-                    return false;
+                    return true;
                 };
             };
-        return true;
+        return false;
     }
 }
