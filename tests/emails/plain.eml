@@ -1,0 +1,11 @@
+Delivered-To: sergey144010@mails.ru
+Received: from 46.72.214.240:63377
+	by 94.100.180.90:143 with IMAP
+	Sun, 23 Jul 2017 09:54:15 +0000 (GMT)
+From: meS@example.com
+To: youS@example.com
+Subject: Plain message
+X-Antivirus: Avast (VPS 170722-0, 22.07.2017), Inbound message
+X-Antivirus-Status: Clean
+
+Text plain message
