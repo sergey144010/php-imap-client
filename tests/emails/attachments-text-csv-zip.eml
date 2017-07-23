@@ -1,0 +1,63 @@
+Delivered-To: sergey144010@mail.ru
+Return-path: <sergey144010@mail.ru>
+Received: by f462.i.mail.ru with local (envelope-from <sergey144010@mail.ru>)
+	id 1dTlci-0002W8-I7
+	for sergey144010@mail.ru; Sat, 08 Jul 2017 12:01:56 +0300
+Received: by e.mail.ru with HTTP;
+	Sat, 08 Jul 2017 12:01:56 +0300
+From: =?UTF-8?B?U2VyZ2V5IEl2YW5vdg==?= <sergey144010@mail.ru>
+To: =?UTF-8?B?U2VyZ2V5IEl2YW5vdg==?= <sergey144010@mail.ru>
+Subject: =?UTF-8?B?VGVzdC1URVhULUNTVi1aSVA=?=
+MIME-Version: 1.0
+X-Mailer: Mail.Ru Mailer 1.0
+Date: Sat, 08 Jul 2017 12:01:56 +0300
+Reply-To: =?UTF-8?B?U2VyZ2V5IEl2YW5vdg==?= <sergey144010@mail.ru>
+X-Priority: 3 (Normal)
+Message-ID: <1499504516.552972723@f462.i.mail.ru>
+Content-Type: multipart/mixed;
+	boundary="----BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516"
+Authentication-Results: f462.i.mail.ru; auth=pass smtp.auth=sergey144010@mail.ru smtp.mailfrom=sergey144010@mail.ru
+X-7FA49CB5: 0D63561A33F958A58DE6DF7207A9774649903971A53A8FED86E2C7228A475F83725E5C173C3A84C3C9BE88FFEDFA497A8806B24E6E27F2A926B9191E2D567F0EC4224003CC836476C0CAF46E325F83A50BF2EBBBDD9D6B0F2FAC53CFDB3248022623479134186CDE6BA297DBC24807EABDAD6C7F3747799A
+X-Mailru-Sender: 693C241574B2797F7D02E71325CD20348D07AF4DA73A65AC9E52870442B20404014247DF2B18BCCA4D08952023261C17B593A0D5434E3E7A41A02D84CB19C89A03AB1AEBEC7359A6263810F9017720A37F1F4601E5CD55A0B4A721A3011E896F
+X-Mras: OK
+X-Spam: undefined
+X-Antivirus: Avast (VPS 170717-2, 17.07.2017), Inbound message
+X-Antivirus-Status: Clean
+
+
+------BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516
+Content-Type: multipart/alternative;
+	boundary="--ALT--BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI1499504516"
+
+
+----ALT--BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI1499504516
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+
+VGVzdC1URVhULUNTVi1aSVAKCgo=
+----ALT--BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI1499504516
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
+
+CjxIVE1MPjxCT0RZPlRlc3QtVEVYVC1DU1YtWklQPGJyPjxicj48YnI+PC9CT0RZPjwvSFRNTD4K
+----ALT--BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI1499504516--
+
+------BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516
+Content-Type: application/octet-stream; name="=?UTF-8?B?RmlsZUNTVi5jc3Y=?="
+Content-Disposition: attachment; filename="=?UTF-8?B?RmlsZUNTVi5jc3Y=?="
+Content-Transfer-Encoding: base64
+
+RmlsZSBDU1o=
+------BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516
+Content-Type: text/plain; name="=?UTF-8?B?RmlsZVRFWFQudHh0?="
+Content-Disposition: attachment; filename="=?UTF-8?B?RmlsZVRFWFQudHh0?="
+Content-Transfer-Encoding: base64
+
+RmlsZSBUZXh0
+------BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516
+Content-Type: application/zip; name="=?UTF-8?B?RmlsZVpJUC56aXA=?="
+Content-Disposition: attachment; filename="=?UTF-8?B?RmlsZVpJUC56aXA=?="
+Content-Transfer-Encoding: base64
+
+RmlsZSB6aXA=
+------BcB3sjXNbrOZZKV0XHWm5Uti9CS70VZI-SV4E0uG3Hq7E19QX-1499504516--
