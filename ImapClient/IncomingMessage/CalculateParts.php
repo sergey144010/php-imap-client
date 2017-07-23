@@ -77,7 +77,9 @@ class CalculateParts
                 $before = $beforeSave.'.'.($key+1);
             };
             $this->getRecursiveSections($subObj, $before);
-            $out[] = ['part' => (string)$before, 'subtype' => $subObj->subtype];
+            $disposition = '';
+            if($subObj->ifdisposition == 1){ $disposition = $subObj->disposition; };
+            $out[] = ['part' => (string)$before, 'subtype' => $subObj->subtype, 'disposition' => $disposition];
         };
         $this->section[] = $out;
     }
