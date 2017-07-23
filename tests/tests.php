@@ -52,6 +52,7 @@ try{
     $steps->step8_check_getMessage();
     $steps->step9_check_Inline();
     $steps->step10_check_onInlineInAttachments();
+    $steps->step11_check_attachments_csv_txt_zip();
 
     echo 'OK'.PHP_EOL;
 

@@ -342,4 +342,50 @@ class Steps
         }; $i++;
     }
 
+    public function step11_check_attachments_csv_txt_zip()
+    {
+        /* HEADER */
+        $stepID = 11; $i = 1;
+        echo 'Start step '.$stepID.PHP_EOL;
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+        echo 'Set messages'. PHP_EOL;
+        MessagesPool::push(LoadMessage::instance()->loadFile('emails/attachments-text-csv-zip.eml'));
+        MessagesPool::send(
+            $this->imapClient->getStream(),
+            $this->imapClient->getConnectParameters()->getMailbox()->getServerPart().$this->testFolder);
+        MessagesPool::clean();
+        echo 'Messages send'. PHP_EOL;
+
+        /* WORK PART */
+        $message = $this->imapClient->getMessageWithAttachments(1);
+        try{
+            $attachments = $message->getAttachments();
+            if(empty($attachments)){
+                $this->imapClient->deleteMessagesInCurrentFolder();
+                throw new ImapClientException('Error: Attachments empty');
+            };
+            $find = 0;
+            foreach ($attachments as $attachment) {
+                if(stripos($attachment->name, '.csv') !== false){ $find = 1;};
+                if(stripos($attachment->name, '.txt') !== false){ $find = 1;};
+                if(stripos($attachment->name, '.zip') !== false){ $find = 1;};
+            };
+            if($find === 0){
+                $this->imapClient->deleteMessagesInCurrentFolder();
+                throw new ImapClientException('Error: Attachments do not contain CSV TXT ZIP files.');
+            };
+        }catch (ImapClientException $e){
+            $this->imapClient->deleteMessagesInCurrentFolder();
+            throw new ImapClientException('Step '.$stepID.' failed');
+        };
+
+        /* FOOTER */
+        $this->imapClient->deleteMessagesInCurrentFolder();
+        if($this->imapClient->countMessages() != 0){
+            throw new ImapClientException('Step '.$stepID.'.'.$i.' countMessages() failed');
+        }; $i++;
+    }
+
 }
