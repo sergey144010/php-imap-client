@@ -9,7 +9,9 @@ Use the following command to install Php-imap-client:
 `composer require sergey144010/php-imap-client dev-master`
 
 or
+
 `composer require sergey144010/php-imap-client dev-develop`
+
 To install the current version in development.
 
 ### 2) Manual
