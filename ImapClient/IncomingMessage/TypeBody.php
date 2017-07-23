@@ -36,7 +36,7 @@ class TypeBody implements TypeInterface
                 return $this->validatePlain($structure);
                 break;
         };
-        return null;
+        return true;
     }
 
     /**
