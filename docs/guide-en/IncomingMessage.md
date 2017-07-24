@@ -91,6 +91,9 @@ $email = $imapClient->getMessageWithAttachments(83);
 $email->getAttachments(); // return array whith attachments
 ```
 
+Example var_dump() incoming message obtained through getMessageWithAttachments() see here
+[Example incoming message var_dump()](DumpIncomingMessage.md)
+
 ### Override getMessages() method
 
 You can redefine the behavior of this method in the following way.
