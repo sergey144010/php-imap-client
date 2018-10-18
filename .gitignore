@@ -12,3 +12,5 @@ tests/emails-local
 
 #Out
 out
+
+composer.lock

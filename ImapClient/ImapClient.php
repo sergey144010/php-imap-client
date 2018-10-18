@@ -14,10 +14,15 @@ namespace sergey144010\ImapClient;
 
 
 use sergey144010\ImapClient\Connect\Interfaces\ImapConnectInterface;
+use sergey144010\ImapClient\Incoming\Builder;
 use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
 use sergey144010\ImapClient\IncomingMessage\IncomingMessage;
-use sergey144010\ImapClient\IncomingMessage\Message;
+#use sergey144010\ImapClient\IncomingMessage\Message;
 use sergey144010\ImapClient\IncomingMessage\TypeAttachments;
+
+use sergey144010\ImapClient\Incoming\Interfaces\BuilderInterface;
+use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
+use sergey144010\ImapClient\Incoming\Message;
 
 /**
  * Class ImapClient is helper class for imap access
@@ -26,7 +31,8 @@ use sergey144010\ImapClient\IncomingMessage\TypeAttachments;
  * @copyright  Copyright (C) Sergey144010
  * @author     Sergey144010
  */
-class ImapClient implements GetMessageInterface
+#class ImapClient implements GetMessageInterface
+class ImapClient
 {
     const ID = 0;
     const UID = 1;
@@ -78,10 +84,16 @@ class ImapClient implements GetMessageInterface
 
     private $getMessageConstant;
 
+    /**
+     * @var BuilderInterface
+     */
+    private $builder;
+
     public function __construct(ImapConnectInterface $imap)
     {
         $this->connect($imap);
-        $this->incomingMessage = new IncomingMessage();
+        #$this->incomingMessage = new IncomingMessage();
+        $this->builder = new Builder();
     }
 
     public function connect(ImapConnectInterface $stream)
@@ -286,6 +298,7 @@ class ImapClient implements GetMessageInterface
      * @param integer $id
      * @return Message
      */
+    /*
     public function getMessage($id)
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
@@ -302,6 +315,21 @@ class ImapClient implements GetMessageInterface
         $obj->setHeaders($this->incomingMessage->getHeaders());
         $obj->setBody($this->incomingMessage->getBody());
         return $obj;
+    }
+    */
+
+    /**
+     * Get message by ID or UID
+     *
+     * @param int $id
+     * @param string $flag Message::DEFAULT
+     * @see Message
+     * @return MessageInterface
+     */
+    public function getMessage(int $id, string $flag = Message::DEFAULT): MessageInterface
+    {
+        $this->builder->setFlag($flag);
+        $this->builder->getMessage(new MessageIdentifier($this->stream, $id, $this->identifier));
     }
 
     public function getMessageWithAttachments($id)
@@ -1124,7 +1152,7 @@ class ImapClient implements GetMessageInterface
             throw new ImapClientException('Message object not exists property '.$property);
         };
     }
-
+/*
     private function returnMessage($id, $const = null)
     {
         switch ($const)
@@ -1158,4 +1186,5 @@ class ImapClient implements GetMessageInterface
                 break;
         }
     }
+*/
 }
