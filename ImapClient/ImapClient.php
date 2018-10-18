@@ -16,7 +16,7 @@ namespace sergey144010\ImapClient;
 use sergey144010\ImapClient\Connect\Interfaces\ImapConnectInterface;
 use sergey144010\ImapClient\Incoming\Builder;
 use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
-use sergey144010\ImapClient\IncomingMessage\IncomingMessage;
+use sergey144010\ImapClient\IncomingMessage\Skeleton;
 #use sergey144010\ImapClient\IncomingMessage\Message;
 use sergey144010\ImapClient\IncomingMessage\TypeAttachments;
 
@@ -49,7 +49,7 @@ class ImapClient
     const DESC = 'desc';
     const ASC = 'asc';
 
-    const ONN_DECODE = 0;
+    const ON_DECODE = 0;
     const OFF_DECODE = 1;
 
     /**
@@ -75,7 +75,7 @@ class ImapClient
     private $identifier = self::ID;
     private $saveIdentifier;
 
-    private $decode = self::ONN_DECODE;
+    public static $decode = self::ON_DECODE;
 
     /**
      * @var array
@@ -214,17 +214,12 @@ class ImapClient
 
     public function onDecode()
     {
-        $this->decode = self::ONN_DECODE;
+        self::$decode = self::ON_DECODE;
     }
 
     public function offDecode()
     {
-        $this->decode = self::OFF_DECODE;
-    }
-
-    public function getDecode()
-    {
-        return $this->decode;
+        self::$decode = self::OFF_DECODE;
     }
 
     public function offInlineInAttachments()
@@ -266,7 +261,7 @@ class ImapClient
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullHeaders();
-        if($this->getDecode() == self::ONN_DECODE){
+        if($this->getDecode() == self::ON_DECODE){
             $this->incomingMessage->decodeHeaders();
         };
         return $this->incomingMessage->getHeaders();
@@ -276,7 +271,7 @@ class ImapClient
     {
         $this->incomingMessage->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
         $this->incomingMessage->pullShortHeaders();
-        if($this->getDecode() == self::ONN_DECODE) {
+        if($this->getDecode() == self::ON_DECODE) {
             $this->incomingMessage->decodeShortHeaders();
         };
         return $this->incomingMessage->getShortHeaders();
@@ -288,7 +283,7 @@ class ImapClient
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullBody();
-        if($this->getDecode() == self::ONN_DECODE) {
+        if($this->getDecode() == self::ON_DECODE) {
             $this->incomingMessage->decodeBody();
         };
         return $this->incomingMessage->getBody();
@@ -340,7 +335,7 @@ class ImapClient
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullBody();
         $this->incomingMessage->pullAttachments();
-        if($this->getDecode() == self::ONN_DECODE) {
+        if($this->getDecode() == self::ON_DECODE) {
             $this->incomingMessage->decodeHeaders();
             $this->incomingMessage->decodeBody();
             $this->incomingMessage->decodeAttachments();
@@ -364,7 +359,7 @@ class ImapClient
         $this->incomingMessage->pullStructure();
         $this->incomingMessage->getParts();
         $this->incomingMessage->pullAttachments();
-        if($this->getDecode() == self::ONN_DECODE) {
+        if($this->getDecode() == self::ON_DECODE) {
             $this->incomingMessage->decodeAttachments();
         };
         $this->attachments = $this->incomingMessage->getAttachments();

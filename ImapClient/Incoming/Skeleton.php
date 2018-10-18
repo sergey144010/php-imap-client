@@ -1,21 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Sergey144010
- * Date: 04.05.2017
- * Time: 23:13
- */
 
 namespace sergey144010\ImapClient\IncomingMessage;
 
-use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
 use sergey144010\ImapClient\MessageIdentifierInterface;
 use sergey144010\ImapClient\ImapHelper;
 use sergey144010\ImapClient\ImapClientException;
 use sergey144010\ImapClient\Part;
 
 
-class IncomingMessage implements IncomingMessageInterface
+class Skeleton
 {
     /**
      * @var MessageIdentifierInterface
