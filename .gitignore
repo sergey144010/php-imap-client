@@ -14,3 +14,5 @@ tests/emails-local
 out
 
 composer.lock
+#Vendor
+vendor
