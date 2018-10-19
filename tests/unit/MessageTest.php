@@ -12,7 +12,7 @@ namespace sergey144010\ImapClient\Tests;
 use PHPUnit\Framework\TestCase;
 use sergey144010\ImapClient\Incoming\Message;
 
-#C:\projects\php-imap-client>vendor\bin\phpunit tests\MessageTest.php
+#C:\projects\php-imap-client>vendor\bin\phpunit tests\unit\MessageTest.php
 class MessageTest extends TestCase
 {
     public function testCreateMessage()

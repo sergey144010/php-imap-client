@@ -19,6 +19,11 @@ class Builder implements BuilderInterface
 
     private $skeleton;
 
+    /**
+     * @var MessageIdentifierInterface
+     */
+    private $messageIdentifier;
+
     public function __construct()
     {
         $this->skeleton = new Skeleton();
@@ -29,31 +34,36 @@ class Builder implements BuilderInterface
         $this->flag = $flag;
     }
 
-    public function getMessage(MessageIdentifierInterface $messageIdentifier): MessageInterface
-    {
-        // TODO: Implement getMessage() method.
-    }
-
     public function setIdentifier(MessageIdentifierInterface $identifier) : void
     {
         $this->skeleton->setIdentifier($identifier);
     }
 
-    public function getMessageStructure($id)
+    public function getMessage(MessageIdentifierInterface $messageIdentifier): MessageInterface
     {
-        $this->skeleton->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
+        $this->messageIdentifier = $messageIdentifier;
+        return $this->returnMessage();
+    }
+
+    public function getMessageStructure()
+    {
+        $this->skeleton->setIdentifier($this->messageIdentifier);
         #return $this->skeleton->getStructure();
     }
 
-    public function getMessageBody($id)
+    public function getMessageBody()
     {
-        $this->skeleton->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
+        $this->skeleton->setIdentifier($this->messageIdentifier);
         $this->skeleton->pullStructure();
         $this->skeleton->getParts();
         $this->skeleton->pullBody();
+        /**
+         * Here must be event like trigger()
+         */
         if($this->getDecode() == ImapClient::ONN_DECODE) {
             $this->skeleton->decodeBody();
         };
+
         $message = new Message();
         $message->setBody($this->skeleton->getBody());
         return $message;
@@ -64,27 +74,27 @@ class Builder implements BuilderInterface
         return ImapClient::$decode;
     }
 
-    private function returnMessage($id, $const = null)
+    private function returnMessage()
     {
-        switch ($const)
+        switch ($this->flag)
         {
             case Message::STRUCTURE :
-                return $this->getMessageStructure($id);
+                return $this->getMessageStructure();
                 break;
             case Message::PARTS :
-                return $this->getMessageParts($id);
+                return $this->getMessageParts();
                 break;
             case Message::HEADERS :
-                return $this->getMessageHeaders($id);
+                return $this->getMessageHeaders();
                 break;
             case Message::SHORT_HEADERS :
-                return $this->getMessageShortHeaders($id);
+                return $this->getMessageShortHeaders();
                 break;
             case Message::BODY :
-                return $this->getMessageBody($id);
+                return $this->getMessageBody();
                 break;
             case Message::ATTACHMENTS :
-                return $this->getMessageAttachments($id);
+                return $this->getMessageAttachments();
                 break;
             default :
                 #return $this->getMessage($id);
