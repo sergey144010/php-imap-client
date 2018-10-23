@@ -14,7 +14,8 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.1",
+    "zendframework/zend-eventmanager": "^3.2@dev"
   },
   "autoload": {
     "psr-4": { "sergey144010\\ImapClient\\" : "ImapClient" }

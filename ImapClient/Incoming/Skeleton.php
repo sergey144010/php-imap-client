@@ -1,6 +1,6 @@
 <?php
 
-namespace sergey144010\ImapClient\IncomingMessage;
+namespace sergey144010\ImapClient\Incoming;
 
 use sergey144010\ImapClient\MessageIdentifierInterface;
 use sergey144010\ImapClient\ImapHelper;

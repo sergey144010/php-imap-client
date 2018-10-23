@@ -24,6 +24,10 @@ use sergey144010\ImapClient\Incoming\Interfaces\BuilderInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
 use sergey144010\ImapClient\Incoming\Message;
 
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManager;
+use Zend\EventManager\EventManagerAwareInterface;
+
 /**
  * Class ImapClient is helper class for imap access
  *
@@ -32,7 +36,7 @@ use sergey144010\ImapClient\Incoming\Message;
  * @author     Sergey144010
  */
 #class ImapClient implements GetMessageInterface
-class ImapClient
+class ImapClient implements EventManagerAwareInterface
 {
     const ID = 0;
     const UID = 1;
@@ -85,22 +89,72 @@ class ImapClient
     private $getMessageConstant;
 
     /**
+     * @var ImapConnectInterface
+     */
+    private $imapConnect;
+    /**
      * @var BuilderInterface
      */
     private $builder;
 
-    public function __construct(ImapConnectInterface $imap)
+    /**
+     * @var EventManagerInterface
+     */
+    protected $events;
+
+    public function __construct()
     {
-        $this->connect($imap);
+        #$this->connect($imap);
         #$this->incomingMessage = new IncomingMessage();
         $this->builder = new Builder();
+        $this->builder->setEvents($this->getEventManager());
     }
 
-    public function connect(ImapConnectInterface $stream)
+    public function setEventManager(EventManagerInterface $events)
     {
-        $this->stream = $stream->getStream();
-        $this->parameters = $stream->getParameters();
+        $events->setIdentifiers([
+            __CLASS__,
+            get_called_class(),
+        ]);
+        $this->events = $events;
+        return $this;
     }
+
+    public function getEventManager()
+    {
+        if (null === $this->events) {
+            $this->setEventManager(new EventManager());
+        }
+        return $this->events;
+    }
+
+    ################################
+
+    public function createConnect()
+    {
+        $this->connect();
+    }
+
+    public function setImapConnect(ImapConnectInterface $imapConnect)
+    {
+        $this->imapConnect = $imapConnect;
+    }
+
+    private function connect()
+    {
+        $this->isConnect();
+        $this->stream = $this->imapConnect->getStream();
+        $this->parameters = $this->imapConnect->getParameters();
+    }
+
+    private function isConnect()
+    {
+        if(!isset($this->imapConnect)){
+            throw new ImapClientException('ImapConnect not set');
+        };
+    }
+
+    ################################
 
     public function disConnect()
     {
@@ -323,6 +377,8 @@ class ImapClient
      */
     public function getMessage(int $id, string $flag = Message::DEFAULT): MessageInterface
     {
+        $params = compact('id');
+        $this->getEventManager()->trigger(__FUNCTION__, $this, $params);
         $this->builder->setFlag($flag);
         $this->builder->getMessage(new MessageIdentifier($this->stream, $id, $this->identifier));
     }

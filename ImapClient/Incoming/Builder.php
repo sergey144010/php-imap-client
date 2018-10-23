@@ -6,9 +6,10 @@ namespace sergey144010\ImapClient\Incoming;
 use sergey144010\ImapClient\ImapClient;
 use sergey144010\ImapClient\Incoming\Interfaces\BuilderInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
-use sergey144010\ImapClient\IncomingMessage\Skeleton;
+use sergey144010\ImapClient\Incoming\Skeleton;
 use sergey144010\ImapClient\MessageIdentifierInterface;
 use sergey144010\ImapClient\MessageIdentifier;
+use Zend\EventManager\EventManagerInterface;
 
 class Builder implements BuilderInterface
 {
@@ -20,6 +21,11 @@ class Builder implements BuilderInterface
     private $skeleton;
 
     /**
+     * @var EventManagerInterface
+     */
+    private $events;
+
+    /**
      * @var MessageIdentifierInterface
      */
     private $messageIdentifier;
@@ -27,6 +33,16 @@ class Builder implements BuilderInterface
     public function __construct()
     {
         $this->skeleton = new Skeleton();
+    }
+
+    public function setEvents(EventManagerInterface $events)
+    {
+        $this->events = $events;
+    }
+
+    protected function getEvents() : EventManagerInterface
+    {
+        return $this->events;
     }
 
     public function setFlag(string $flag) : void
@@ -59,7 +75,13 @@ class Builder implements BuilderInterface
         $this->skeleton->pullBody();
         /**
          * Here must be event like trigger()
+         *
+         *
+         * LIKE THIS
          */
+        $params = ['skeleton'=>$this->skeleton];
+        $this->getEvents()->trigger(__FUNCTION__, $this, $params);
+
         if($this->getDecode() == ImapClient::ONN_DECODE) {
             $this->skeleton->decodeBody();
         };
