@@ -18,6 +18,9 @@ class Builder implements BuilderInterface
      */
     private $flag;
 
+    /**
+     * @var Skeleton
+     */
     private $skeleton;
 
     /**
@@ -73,21 +76,26 @@ class Builder implements BuilderInterface
         $this->skeleton->pullStructure();
         $this->skeleton->getParts();
         $this->skeleton->pullBody();
-        /**
-         * Here must be event like trigger()
-         *
-         *
-         * LIKE THIS
-         */
-        $params = ['skeleton'=>$this->skeleton];
-        $this->getEvents()->trigger(__FUNCTION__, $this, $params);
 
-        if($this->getDecode() == ImapClient::ONN_DECODE) {
+        $params = [
+            'id' => $this->messageIdentifier->getId(),
+            'body' => $this->skeleton->getBody(),
+            ImapClient::DEFAULT_DECODE_BODY => false,
+            ImapClient::CUSTOM_DECODE_BODY => false,
+        ];
+        $params = $this->getEvents()->prepareArgs($params);
+        $this->getEvents()->trigger(ImapClient::DECODE_BODY, $this, $params);
+        if($params[ImapClient::DEFAULT_DECODE_BODY]){
             $this->skeleton->decodeBody();
+            $body = $this->skeleton->getBody();
+        }elseif ($params[ImapClient::CUSTOM_DECODE_BODY]){
+            $body = $params['body'];
+        }else{
+            $body = $this->skeleton->getBody();
         };
 
         $message = new Message();
-        $message->setBody($this->skeleton->getBody());
+        $message->setBody($body);
         return $message;
     }
 

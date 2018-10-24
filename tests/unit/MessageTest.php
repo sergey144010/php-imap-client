@@ -13,16 +13,17 @@ use PHPUnit\Framework\TestCase;
 use sergey144010\ImapClient\ImapClient;
 use sergey144010\ImapClient\Incoming\Message;
 
-#C:\projects\php-imap-client>vendor\bin\phpunit tests\unit\MessageTest.php
+#C:\projects\php-imap-client>vendor\bin\phpunit --debug tests\unit\MessageTest.php
 class MessageTest extends TestCase
 {
+    /*
     public function testCreateMessage()
     {
         $message = new Message();
         $message->setHeaders('123');
         $this->assertEquals('123', $message->getHeaders());
     }
-
+    */
     /*
     public function oldTestEvents()
     {
@@ -44,5 +45,12 @@ class MessageTest extends TestCase
     public function testImapClient()
     {
         $imapClient = new ImapClient();
+        $imapClient->getEventManager()->attach(ImapClient::DECODE_BODY, function($e){
+            $params = $e->getParams();
+            $e->setParam(ImapClient::CUSTOM_DECODE_BODY, true);
+            $e->setParam('body', '33333333333333333333333333333');
+        });
+        $message = $imapClient->getMessage(123, Message::BODY);
+        $this->assertEquals('33333333333333333333333333333', $message->getBody());
     }
 }

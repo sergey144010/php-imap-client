@@ -41,6 +41,7 @@ class ImapClient implements EventManagerAwareInterface
     const ID = 0;
     const UID = 1;
 
+    /*
     const STRUCTURE = 'structure';
     const PARTS = 'parts';
     const HEADERS = 'headers';
@@ -49,12 +50,19 @@ class ImapClient implements EventManagerAwareInterface
     const MESSAGE = 'message';
     const MESSAGE_WITH_ATTACHMENTS = 'messageWithAttachments';
     const ATTACHMENTS = 'attachments';
+    */
+
+    const DECODE_BODY = 'decodeBody';
+    const DEFAULT_DECODE_BODY = 'defaultDecodeBody';
+    const CUSTOM_DECODE_BODY = 'customDecodeBody';
 
     const DESC = 'desc';
     const ASC = 'asc';
 
+    #/*
     const ON_DECODE = 0;
     const OFF_DECODE = 1;
+    #*/
 
     /**
      * Subscribe to a folder
@@ -377,10 +385,10 @@ class ImapClient implements EventManagerAwareInterface
      */
     public function getMessage(int $id, string $flag = Message::DEFAULT): MessageInterface
     {
-        $params = compact('id');
-        $this->getEventManager()->trigger(__FUNCTION__, $this, $params);
+        #$params = compact('id');
+        #$responseCollection = $this->getEventManager()->trigger(__FUNCTION__, $this, $params);
         $this->builder->setFlag($flag);
-        $this->builder->getMessage(new MessageIdentifier($this->stream, $id, $this->identifier));
+        return $this->builder->getMessage(new MessageIdentifier($this->stream, $id, $this->identifier));
     }
 
     public function getMessageWithAttachments($id)
