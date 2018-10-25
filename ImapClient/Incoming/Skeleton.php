@@ -2,13 +2,14 @@
 
 namespace sergey144010\ImapClient\Incoming;
 
+use sergey144010\ImapClient\Incoming\Interfaces\SkeletonInterface;
 use sergey144010\ImapClient\MessageIdentifierInterface;
 use sergey144010\ImapClient\ImapHelper;
 use sergey144010\ImapClient\ImapClientException;
 use sergey144010\ImapClient\Part;
 
 
-class Skeleton
+class Skeleton implements SkeletonInterface
 {
     /**
      * @var MessageIdentifierInterface
@@ -45,7 +46,7 @@ class Skeleton
      */
     private $attachments;
 
-    public function setIdentifier(MessageIdentifierInterface $identifier)
+    public function setIdentifier(MessageIdentifierInterface $identifier) : void
     {
         $this->messageIdentifier = $identifier;
 
@@ -105,28 +106,28 @@ class Skeleton
         return $this->attachments;
     }
 
-    public function pullStructure()
+    private function pullStructure()
     {
         $this->checkIdentifier();
         $this->structure = ImapHelper::imapFetchStructure($this->messageIdentifier);
         return $this;
     }
 
-    public function pullHeaders()
+    private function pullHeaders()
     {
         $this->checkIdentifier();
         $this->headers = ImapHelper::imapHeaderInfo($this->messageIdentifier);
         return $this;
     }
 
-    public function pullShortHeaders()
+    private function pullShortHeaders()
     {
         $this->checkIdentifier();
         $this->shortHeaders = ImapHelper::imapFetchOverview($this->messageIdentifier)[0];
         return $this;
     }
 
-    public function pullBody()
+    private function pullBody()
     {
         $this->checkIdentifier();
         $this->checkStructure();
@@ -135,7 +136,7 @@ class Skeleton
         return $this;
     }
 
-    public function pullAttachments()
+    private function pullAttachments()
     {
         $this->checkIdentifier();
         $this->checkStructure();
@@ -144,12 +145,12 @@ class Skeleton
         return $this;
     }
 
-    public function pullPart($part)
+    private function pullPart($part)
     {
         return ImapHelper::imapFetchBody($this->messageIdentifier, $part);
     }
 
-    public function pullPartStructure($part)
+    private function pullPartStructure($part)
     {
         return ImapHelper::imapBodyStruct($this->messageIdentifier, $part);
     }

@@ -4,6 +4,8 @@ namespace sergey144010\ImapClient\Incoming;
 
 
 use sergey144010\ImapClient\ImapClient;
+use sergey144010\ImapClient\ImapClientException;
+use sergey144010\ImapClient\Incoming\Interfaces\SkeletonInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\BuilderInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
 use sergey144010\ImapClient\Incoming\Skeleton;
@@ -35,17 +37,22 @@ class Builder implements BuilderInterface
 
     public function __construct()
     {
+
+    }
+
+    public function setSkeleton(SkeletonInterface $skeleton) : void
+    {
+        $this->skeleton = $skeleton;
+    }
+
+    public function createSkeleton() : void
+    {
         $this->skeleton = new Skeleton();
     }
 
     public function setEvents(EventManagerInterface $events)
     {
         $this->events = $events;
-    }
-
-    protected function getEvents() : EventManagerInterface
-    {
-        return $this->events;
     }
 
     public function setFlag(string $flag) : void
@@ -58,45 +65,16 @@ class Builder implements BuilderInterface
         $this->skeleton->setIdentifier($identifier);
     }
 
-    public function getMessage(MessageIdentifierInterface $messageIdentifier): MessageInterface
+    public function getMessage(): MessageInterface
     {
-        $this->messageIdentifier = $messageIdentifier;
         return $this->returnMessage();
     }
 
-    public function getMessageStructure()
+    public function getMessageStructure() : Message
     {
+        $this->skeleton = $this->getSkeleton();
         $this->skeleton->setIdentifier($this->messageIdentifier);
-        #return $this->skeleton->getStructure();
-    }
-
-    public function getMessageBody()
-    {
-        $this->skeleton->setIdentifier($this->messageIdentifier);
-        $this->skeleton->pullStructure();
-        $this->skeleton->getParts();
-        $this->skeleton->pullBody();
-
-        $params = [
-            'id' => $this->messageIdentifier->getId(),
-            'body' => $this->skeleton->getBody(),
-            ImapClient::DEFAULT_DECODE_BODY => false,
-            ImapClient::CUSTOM_DECODE_BODY => false,
-        ];
-        $params = $this->getEvents()->prepareArgs($params);
-        $this->getEvents()->trigger(ImapClient::DECODE_BODY, $this, $params);
-        if($params[ImapClient::DEFAULT_DECODE_BODY]){
-            $this->skeleton->decodeBody();
-            $body = $this->skeleton->getBody();
-        }elseif ($params[ImapClient::CUSTOM_DECODE_BODY]){
-            $body = $params['body'];
-        }else{
-            $body = $this->skeleton->getBody();
-        };
-
-        $message = new Message();
-        $message->setBody($body);
-        return $message;
+        return $this->skeleton->getStructure();
     }
 
     public function getDecode()
@@ -126,9 +104,58 @@ class Builder implements BuilderInterface
             case Message::ATTACHMENTS :
                 return $this->getMessageAttachments();
                 break;
+            case Message::DEFAULT :
+                return $this->getMessage();
+                break;
             default :
-                #return $this->getMessage($id);
+                return $this->getMessage();
                 break;
         }
+    }
+
+    private function getSkeleton() : SkeletonInterface
+    {
+        if(!isset($this->skeleton)){
+            throw new ImapClientException('Skeleton not set');
+        };
+        return $this->skeleton;
+    }
+
+    private function getEvents() : EventManagerInterface
+    {
+        if(!isset($this->events)){
+            throw new ImapClientException('Events not set');
+        };
+        return $this->events;
+    }
+
+    private function getMessageBody() : MessageInterface
+    {
+        $this->skeleton = $this->getSkeleton();
+        $this->skeleton->setIdentifier($this->messageIdentifier);
+        $this->skeleton->getStructure();
+        $this->skeleton->getParts();
+        $this->skeleton->getBody();
+
+        $params = [
+            'id' => $this->messageIdentifier->getId(),
+            'body' => $this->skeleton->getBody(),
+            ImapClient::DECODE_BODY_OFF => false,
+            ImapClient::DECODE_BODY_CUSTOM => false,
+        ];
+        $params = $this->getEvents()->prepareArgs($params);
+        $this->getEvents()->trigger(ImapClient::DECODE_BODY, $this, $params);
+        if($params[ImapClient::DECODE_BODY_OFF]){
+            $body = $this->skeleton->getBody();
+        } elseif ($params[ImapClient::DECODE_BODY_CUSTOM]){
+            $body = $params['body'];
+        }else{
+            $this->skeleton->decodeBody();
+            $body = $this->skeleton->getBody();
+        };
+
+        $message = new Message();
+        $message->setBody($body);
+        return $message;
     }
 }

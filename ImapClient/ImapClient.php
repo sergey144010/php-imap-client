@@ -16,7 +16,7 @@ namespace sergey144010\ImapClient;
 use sergey144010\ImapClient\Connect\Interfaces\ImapConnectInterface;
 use sergey144010\ImapClient\Incoming\Builder;
 use sergey144010\ImapClient\IncomingMessage\Interfaces\IncomingMessageInterface;
-use sergey144010\ImapClient\IncomingMessage\Skeleton;
+use sergey144010\ImapClient\Incoming\Skeleton;
 #use sergey144010\ImapClient\IncomingMessage\Message;
 use sergey144010\ImapClient\IncomingMessage\TypeAttachments;
 
@@ -53,8 +53,8 @@ class ImapClient implements EventManagerAwareInterface
     */
 
     const DECODE_BODY = 'decodeBody';
-    const DEFAULT_DECODE_BODY = 'defaultDecodeBody';
-    const CUSTOM_DECODE_BODY = 'customDecodeBody';
+    const DECODE_BODY_OFF = 'decodeBodyOff';
+    const DECODE_BODY_CUSTOM = 'decodeBodyCustom';
 
     const DESC = 'desc';
     const ASC = 'asc';
@@ -114,6 +114,7 @@ class ImapClient implements EventManagerAwareInterface
     {
         #$this->connect($imap);
         #$this->incomingMessage = new IncomingMessage();
+
         $this->builder = new Builder();
         $this->builder->setEvents($this->getEventManager());
     }
@@ -387,8 +388,10 @@ class ImapClient implements EventManagerAwareInterface
     {
         #$params = compact('id');
         #$responseCollection = $this->getEventManager()->trigger(__FUNCTION__, $this, $params);
+        $this->builder->createSkeleton();
         $this->builder->setFlag($flag);
-        return $this->builder->getMessage(new MessageIdentifier($this->stream, $id, $this->identifier));
+        $this->builder->setIdentifier(new MessageIdentifier($this->stream, $id, $this->identifier));
+        return $this->builder->getMessage();
     }
 
     public function getMessageWithAttachments($id)
