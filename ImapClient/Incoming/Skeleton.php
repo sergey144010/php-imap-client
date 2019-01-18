@@ -130,18 +130,22 @@ class Skeleton implements SkeletonInterface, IdentifierInterface
 
     private function pullBody()
     {
-        $this->checkIdentifier();
-        $this->checkStructure();
-        $this->checkParts();
+        #$this->checkIdentifier();
+        #$this->checkStructure();
+        #$this->checkParts();
+        $this->getStructure();
+        $this->getParts();
         $this->body = (new Body($this->messageIdentifier, $this->structure, $this->parts))->get();
         return $this;
     }
 
     private function pullAttachments()
     {
-        $this->checkIdentifier();
-        $this->checkStructure();
-        $this->checkParts();
+        #$this->checkIdentifier();
+        #$this->checkStructure();
+        #$this->checkParts();
+        $this->getStructure();
+        $this->getParts();
         $this->attachments = (new Attachments($this->messageIdentifier, $this->structure, $this->parts))->get();
         return $this;
     }
