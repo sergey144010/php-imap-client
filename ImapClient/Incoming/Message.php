@@ -31,6 +31,11 @@ class Message extends MessageStructure implements MessageInterface, MessageStruc
         $this->attachments = $attachments;
     }
 
+    public static function instance($headers = null, $body = null, $attachments = null)
+    {
+        return new self($headers, $body, $attachments);
+    }
+
     /**
      * @return mixed
      */
@@ -53,6 +58,13 @@ class Message extends MessageStructure implements MessageInterface, MessageStruc
     public function getAttachments()
     {
         return $this->attachments;
+    }
+
+    public function setOptions($structure = null, $parts = null, $shortHeaders = null)
+    {
+        $this->setStructure($structure);
+        $this->setParts($parts);
+        $this->setShortHeaders($shortHeaders);
     }
 
 }

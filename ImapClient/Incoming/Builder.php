@@ -73,14 +73,14 @@ class Builder implements BuilderInterface, IdentifierInterface
     {
         $this->skeleton = $this->getSkeleton();
         $this->skeleton->setIdentifier($this->messageIdentifier);
-        return $this->skeleton->getStructure();
+        return Message::instance()->setOptions($this->skeleton->getStructure());
     }
 
     public function getMessageParts() : Message
     {
         $this->skeleton = $this->getSkeleton();
         $this->skeleton->setIdentifier($this->messageIdentifier);
-        return $this->skeleton->getParts();
+        return Message::instance()->setOptions(null, $this->skeleton->getParts(), null);
     }
 
     public function getMessageHeaders() : Message
@@ -88,6 +88,20 @@ class Builder implements BuilderInterface, IdentifierInterface
         $this->skeleton = $this->getSkeleton();
         $this->skeleton->setIdentifier($this->messageIdentifier);
         return new Message($this->skeleton->getHeaders());
+    }
+
+    public function getMessageShortHeaders() : Message
+    {
+        $this->skeleton = $this->getSkeleton();
+        $this->skeleton->setIdentifier($this->messageIdentifier);
+        return Message::instance()->setOptions(null, null, $this->skeleton->getShortHeaders());
+    }
+
+    public function getMessageAttachments() : Message
+    {
+        $this->skeleton = $this->getSkeleton();
+        $this->skeleton->setIdentifier($this->messageIdentifier);
+        return new Message(null, null, $this->skeleton->getAttachments());
     }
 
     public function getDecode()

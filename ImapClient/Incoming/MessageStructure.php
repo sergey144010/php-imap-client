@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: employee
- * Date: 18.01.2019
- * Time: 17:02
- */
 
 namespace sergey144010\ImapClient\Incoming;
 
@@ -30,5 +24,20 @@ class MessageStructure implements MessageStructureInterface
     public function getShortHeaders()
     {
         return $this->shortHeaders;
+    }
+
+    protected function setStructure($structure)
+    {
+        $this->structure = $structure;
+    }
+
+    protected function setParts($parts)
+    {
+        $this->parts = $parts;
+    }
+
+    protected function setShortHeaders($shortHeaders)
+    {
+        $this->shortHeaders = $shortHeaders;
     }
 }
