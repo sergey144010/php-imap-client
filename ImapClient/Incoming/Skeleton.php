@@ -69,7 +69,8 @@ class Skeleton implements SkeletonInterface, IdentifierInterface
     public function getParts()
     {
         if(!isset($this->parts)){
-            $this->checkStructure();
+            #$this->checkStructure();
+            $this->getStructure();
             $this->parts = (new CalculateParts($this->structure))->getParts();
         };
         return $this->parts;
