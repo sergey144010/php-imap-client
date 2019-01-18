@@ -4,21 +4,32 @@ namespace sergey144010\ImapClient\Incoming;
 
 
 use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
+use sergey144010\ImapClient\Incoming\Interfaces\MessageStructureInterface;
 
-class Message implements MessageInterface
+class Message extends MessageStructure implements MessageInterface, MessageStructureInterface
 {
     const STRUCTURE = 'structure';
     const PARTS = 'parts';
-    const HEADERS = 'headers';
     const SHORT_HEADERS = 'shortHeaders';
+
+    const HEADERS = 'headers';
     const BODY = 'body';
-    const WITH_OUT_ATTACHMENTS = 'withOutAttachments';
     const ATTACHMENTS = 'attachments';
-    const DEFAULT = 'default';
+
+    const WITH_OUT_ATTACHMENTS = 'withOutAttachments';
+    const DEFAULT = 'default'; // change name
 
     private $headers;
     private $body;
     private $attachments;
+
+    # Какие типы, объкты ?
+    public function __construct($headers = null, $body = null, $attachments = null)
+    {
+        $this->headers = $headers;
+        $this->body = $body;
+        $this->attachments = $attachments;
+    }
 
     /**
      * @return mixed
@@ -26,14 +37,6 @@ class Message implements MessageInterface
     public function getHeaders()
     {
         return $this->headers;
-    }
-
-    /**
-     * @param mixed $headers
-     */
-    public function setHeaders($headers)
-    {
-        $this->headers = $headers;
     }
 
     /**
@@ -45,27 +48,11 @@ class Message implements MessageInterface
     }
 
     /**
-     * @param mixed $body
-     */
-    public function setBody($body)
-    {
-        $this->body = $body;
-    }
-
-    /**
      * @return mixed
      */
     public function getAttachments()
     {
         return $this->attachments;
-    }
-
-    /**
-     * @param mixed $attachments
-     */
-    public function setAttachments($attachments)
-    {
-        $this->attachments = $attachments;
     }
 
 }

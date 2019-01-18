@@ -4,12 +4,13 @@ namespace sergey144010\ImapClient\Incoming;
 
 use sergey144010\ImapClient\Incoming\Interfaces\SkeletonInterface;
 use sergey144010\ImapClient\MessageIdentifierInterface;
+use sergey144010\ImapClient\Incoming\Interfaces\IdentifierInterface;
 use sergey144010\ImapClient\ImapHelper;
 use sergey144010\ImapClient\ImapClientException;
 use sergey144010\ImapClient\Part;
 
 
-class Skeleton implements SkeletonInterface
+class Skeleton implements SkeletonInterface, IdentifierInterface
 {
     /**
      * @var MessageIdentifierInterface

@@ -2,9 +2,8 @@
 
 namespace sergey144010\ImapClient\Incoming\Interfaces;
 
-use sergey144010\ImapClient\Incoming\Interfaces\SetIdentifierInterface;
 
-interface SkeletonInterface extends SetIdentifierInterface
+interface SkeletonInterface
 {
     public function getStructure();
     public function getParts();

@@ -8,12 +8,11 @@ use sergey144010\ImapClient\ImapClientException;
 use sergey144010\ImapClient\Incoming\Interfaces\SkeletonInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\BuilderInterface;
 use sergey144010\ImapClient\Incoming\Interfaces\MessageInterface;
-use sergey144010\ImapClient\Incoming\Skeleton;
 use sergey144010\ImapClient\MessageIdentifierInterface;
-use sergey144010\ImapClient\MessageIdentifier;
+use sergey144010\ImapClient\Incoming\Interfaces\IdentifierInterface;
 use Zend\EventManager\EventManagerInterface;
 
-class Builder implements BuilderInterface
+class Builder implements BuilderInterface, IdentifierInterface
 {
     /**
      * @var string
@@ -75,6 +74,20 @@ class Builder implements BuilderInterface
         $this->skeleton = $this->getSkeleton();
         $this->skeleton->setIdentifier($this->messageIdentifier);
         return $this->skeleton->getStructure();
+    }
+
+    public function getMessageParts() : Message
+    {
+        $this->skeleton = $this->getSkeleton();
+        $this->skeleton->setIdentifier($this->messageIdentifier);
+        return $this->skeleton->getParts();
+    }
+
+    public function getMessageHeaders() : Message
+    {
+        $this->skeleton = $this->getSkeleton();
+        $this->skeleton->setIdentifier($this->messageIdentifier);
+        return new Message($this->skeleton->getHeaders());
     }
 
     public function getDecode()
